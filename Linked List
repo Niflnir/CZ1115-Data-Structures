@@ -1,0 +1,118 @@
+
+
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct node
+{
+    int item;
+    struct node *next;
+}ListNode;
+
+typedef struct list
+{
+    ListNode *head;
+    int size;
+    
+}LinkedList;
+typedef struct Stack{
+    
+    LinkedList ll;
+}Stack;
+void printlist(LinkedList *ll){
+    ListNode *temp = ll->head;
+    if(temp == NULL) return;
+    
+    while(temp != NULL)
+    {
+        printf( "%d",temp->item);
+        temp = temp->next;
+    }
+    printf("\n");
+    
+}
+
+ListNode *findnode(LinkedList *ll, int index){
+    
+    ListNode *temp = ll->head;
+    
+    while(temp !=NULL && index> 0)
+    {
+        
+        temp = temp->next;
+        
+        index--;
+        
+    }
+    return temp;
+}
+void insertNode(LinkedList *ll,int index, int value){
+    
+    
+    ListNode *new_node = malloc(sizeof(ListNode));
+    new_node->item = value;
+    if(index == 0){
+        
+        new_node->next = ll->head;
+        ll->head = new_node;
+        int Size = ll->size;
+        Size++;
+        ll->size = Size;
+        
+        
+    }
+    
+}
+void removeNode(LinkedList *ll, int index){
+    
+    ListNode *temp = ll->head;
+    if(index == 0 )
+    {
+        
+        ll->head = temp->next;
+        free(temp);
+        int Size = ll->size;
+        Size--;
+        ll->size = Size;
+    }
+    
+}
+
+void push(Stack *s, int item){
+    
+    insertNode(&(s->ll), 0 , item);
+    
+}
+int pop(Stack *s)
+{
+    int item;
+    item = ((s->ll).head->item);
+    removeNode(&(s->ll), 0);
+    return item;
+
+}
+int isEmptyStack(Stack *s)
+{
+    if ((s->ll).size == 0) return 1;
+    return 0;
+}
+
+
+
+int main(){
+    int i = 0;
+    Stack s;
+    s.ll.head = NULL;
+    printf("Enter a number: ");
+    scanf("%d", &i);
+    while (i != -1){
+        push(&s, i);
+        printf("Enter a number: ");
+        scanf("%d", &i);
+        }
+    printf("Popping stack: ");
+    while (!isEmptyStack(&s))
+    printf("%d ", pop(&s));
+    return 0;
+}
+
+
